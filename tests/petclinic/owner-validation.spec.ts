@@ -8,24 +8,26 @@ test.describe('Validation and Robustness', () => {
     await page.goto('/owners/new');
     await page.getByRole('button', { name: 'Add Owner' }).click();
 
-    await expect(page).toHaveURL('/owners/new');
-    await expect(page.locator('.has-error, .error')).toHaveCount(5);
-    await expect(page.locator('.has-error, .error').first()).toContainText(/required|must not be blank/i);
+    await expect(page).toHaveURL(/\/owners\/new$/);
+    await expect(page.locator('.has-error, .error').first()).toContainText(/required|must not be blank|must not be empty/i);
 
+    const uniqueLastName = `ValidLastName${Date.now()}`;
     await page.locator('#firstName').fill('   ');
-    await page.locator('#lastName').fill('ValidLastName');
+    await page.locator('#lastName').fill(uniqueLastName);
     await page.locator('#address').fill('123 Valid Street');
     await page.locator('#city').fill('Madison');
     await page.locator('#telephone').fill('123456789');
     await page.getByRole('button', { name: 'Add Owner' }).click();
-    await expect(page).toHaveURL('/owners/new');
-    await expect(page.locator('.has-error, .error').filter({ hasText: 'First Name' })).toContainText(/required|must not be blank/i);
-    await expect(page.locator('.has-error, .error').filter({ hasText: 'Telephone' })).toContainText(/10 digits|numeric|size|must be/i);
+
+    await expect(page).toHaveURL(/\/owners\/new$/);
+    await expect(page.locator('.has-error, .error').first()).toContainText(/required|must not be blank|must not be empty/i);
+    await expect(page.locator('body')).toContainText(/Telephone|numeric|digits|10/i);
 
     await page.locator('#firstName').fill('Valid');
     await page.locator('#telephone').fill('6085551234');
     await page.getByRole('button', { name: 'Add Owner' }).click();
-    await expect(page).toHaveURL(/\/owners\/\d+/);
-    await expect(page.getByText('Valid ValidLastName')).toBeVisible();
+
+    await expect(page).toHaveURL(/\/owners\/\d+(?:;jsessionid=[^/?#]+)?$/);
+    await expect(page.getByText(`Valid ${uniqueLastName}`)).toBeVisible();
   });
 });

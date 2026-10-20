@@ -5,35 +5,41 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Owner and Pet Management', () => {
   test('Edit an existing owner', async ({ page }) => {
+    const timestamp = Date.now();
+    const firstName = 'Editable';
+    const lastName = `Owner${timestamp}`;
+    const originalAddress = `Original St ${timestamp}`;
+    const originalCity = 'OriginalCity';
+    const originalTelephone = '6085550000';
+    const updatedAddress = `Updated St ${timestamp}`;
+    const updatedCity = 'UpdatedCity';
+    const updatedTelephone = '5551234567';
+
     await page.goto('/');
+    await page.getByRole('link', { name: 'Find Owners' }).click();
+    await page.getByRole('link', { name: 'Add Owner' }).click();
 
-    // Open a seeded owner profile and select Edit Owner
-    await page.locator('text=Find Owners').click();
-    await page.locator('input').fill('Franklin');
-    await page.locator('button:has-text("Find Owner")').click();
-    await page.locator('text=Edit Owner').click();
+    await page.locator('#firstName').fill(firstName);
+    await page.locator('#lastName').fill(lastName);
+    await page.locator('#address').fill(originalAddress);
+    await page.locator('#city').fill(originalCity);
+    await page.locator('#telephone').fill(originalTelephone);
+    await page.getByRole('button', { name: 'Add Owner' }).click();
 
-    // The form is pre-populated with the owner's current values
-    await expect(page.locator('input[value="110 W. Liberty St."]')).toHaveValue('110 W. Liberty St.');
-    await expect(page.locator('input[value="Madison"]')).toHaveValue('Madison');
-    await expect(page.locator('input[value="6085551023"]')).toHaveValue('6085551023');
-
-    // The button is labeled Update Owner
+    await page.getByRole('link', { name: 'Edit Owner' }).click();
+    await expect(page.locator('#address')).toHaveValue(originalAddress);
+    await expect(page.locator('#city')).toHaveValue(originalCity);
+    await expect(page.locator('#telephone')).toHaveValue(originalTelephone);
     await expect(page.getByRole('button', { name: 'Update Owner' })).toBeVisible();
 
-    // Change the address, city, and telephone to valid new values and submit
-    await page.locator('input[value="110 W. Liberty St."]').fill('123 Main Street');
-    await page.locator('input[value="Madison"]').fill('Chicago');
-    await page.locator('input[value="6085551023"]').fill('5551234567');
-    await page.locator('button:has-text("Update Owner")').click();
+    await page.locator('#address').fill(updatedAddress);
+    await page.locator('#city').fill(updatedCity);
+    await page.locator('#telephone').fill(updatedTelephone);
+    await page.getByRole('button', { name: 'Update Owner' }).click();
 
-    // The update succeeds without validation errors and the profile displays the changed values
-    await expect(page.getByRole('cell', { name: 'Main Street' })).toBeVisible();
-    await expect(page.getByRole('cell', { name: 'Chicago' })).toBeVisible();
-    await expect(page.getByRole('cell', { name: '5551234567' })).toBeVisible();
-
-    // The profile preserves the owner identity and existing pets
-    await expect(page.getByText('George Franklin')).toBeVisible();
-    await expect(page.getByText('Leo')).toBeVisible();
+    await expect(page.getByText(updatedAddress)).toBeVisible();
+    await expect(page.getByText(updatedCity)).toBeVisible();
+    await expect(page.getByText(updatedTelephone)).toBeVisible();
+    await expect(page.getByText(`${firstName} ${lastName}`)).toBeVisible();
   });
 });
