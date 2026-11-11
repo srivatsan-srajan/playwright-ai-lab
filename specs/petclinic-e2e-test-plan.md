@@ -2,14 +2,11 @@
 
 ## Application Overview
 
-End-to-end functional test plan for the Spring PetClinic application running at http://localhost:8080. Each test starts from a blank/fresh application state seeded by tests/seed.spec.ts and uses stable existing records or uniquely named test data. Coverage includes global navigation, owner search and pagination, owner and pet management, visit recording, veterinarian browsing, validation, and the intentional error endpoint.
+End-to-end functional test plan for the Spring PetClinic application running at http://localhost:8080. Tests currently run against the application's existing demonstration data. Some scenarios create timestamp-based test records, while others use or modify existing demonstration records. The current `tests/seed.spec.ts` is a smoke test that verifies the home page; it does not seed or reset application data. Test-data isolation and cleanup remain future improvements. Coverage includes global navigation, owner search and pagination, owner and pet management, visit recording, veterinarian browsing, validation, and the intentional error endpoint.
 
 ## Test Scenarios
 
 ### 1. Global Navigation and Read-Only Views
-
-**Seed:** `tests/seed.spec.ts`
-
 #### 1.1. Load home page and use primary navigation
 
 **File:** `tests/petclinic/global-navigation.spec.ts`
@@ -46,9 +43,6 @@ End-to-end functional test plan for the Spring PetClinic application running at 
     - expect: The page remains rendered with usable global navigation.
 
 ### 2. Owner Search and Profiles
-
-**Seed:** `tests/seed.spec.ts`
-
 #### 2.1. Search owners by last name and open profile
 
 **File:** `tests/petclinic/owner-search.spec.ts`
@@ -91,9 +85,6 @@ End-to-end functional test plan for the Spring PetClinic application running at 
     - expect: Records do not duplicate or disappear during navigation.
 
 ### 3. Owner and Pet Management
-
-**Seed:** `tests/seed.spec.ts`
-
 #### 3.1. Create a new owner
 
 **File:** `tests/petclinic/create-owner.spec.ts`
@@ -132,9 +123,6 @@ End-to-end functional test plan for the Spring PetClinic application running at 
     - expect: The owner profile shows the changed pet data and retains the pet's visit history.
 
 ### 4. Visit Recording
-
-**Seed:** `tests/seed.spec.ts`
-
 #### 4.1. Record a visit for a pet
 
 **File:** `tests/petclinic/create-visit.spec.ts`
@@ -164,9 +152,6 @@ End-to-end functional test plan for the Spring PetClinic application running at 
     - expect: A valid date and nonblank description can subsequently be submitted successfully.
 
 ### 5. Validation and Robustness
-
-**Seed:** `tests/seed.spec.ts`
-
 #### 5.1. Validate required owner fields and telephone format
 
 **File:** `tests/petclinic/owner-validation.spec.ts`
