@@ -1,0 +1,97 @@
+
+[
+  {
+    "case_id": "TC-001",
+    "requirement_id": "3.1",
+    "test_name": "Create a new owner",
+    "source_file": "tests/petclinic/create-owner.spec.ts",
+    "requirement": "Create a new owner using valid unique owner details.",
+    "expected_behaviour": [
+      {
+        "id": "EB-01",
+        "description": "Navigate to the Add Owner form.",
+        "priority": "mandatory"
+      },
+      {
+        "id": "EB-02",
+        "description": "Submit first name, last name, address, city and a valid 10-digit telephone number.",
+        "priority": "mandatory"
+      },
+      {
+        "id": "EB-03",
+        "description": "Verify that the owner is created successfully.",
+        "priority": "mandatory"
+      },
+      {
+        "id": "EB-04",
+        "description": "Verify that the profile displays all submitted details.",
+        "priority": "mandatory"
+      },
+      {
+        "id": "EB-05",
+        "description": "Search for the newly created owner.",
+        "priority": "mandatory"
+      },
+      {
+        "id": "EB-06",
+        "description": "Verify that the owner can be found with the submitted contact information.",
+        "priority": "mandatory"
+      },
+      {
+        "id": "EB-07",
+        "description": "Verify that the newly created owner initially has no pets.",
+        "priority": "mandatory"
+      }
+    ],
+    "evaluation_context": {
+      "application": "Spring PetClinic MVC",
+      "base_url": "http://localhost:8080",
+      "test_framework": "Playwright",
+      "data_strategy": "Timestamp-based unique owner data"
+    },
+    "human_review": {
+      "reviewed": false,
+      "scenario_coverage": null,
+      "assertion_quality": null,
+      "requirement_alignment": null,
+      "observations": [],
+      "behaviour_coverage": [
+        {
+          "behaviour_id": "EB-01",
+          "status": "covered",
+          "evidence": "Test navigates to the Add Owner form."
+        },
+        {
+          "behaviour_id": "EB-02",
+          "status": "covered",
+          "evidence": "Test submits the required owner details."
+        },
+        {
+          "behaviour_id": "EB-03",
+          "status": "covered",
+          "evidence": "Test verifies successful owner creation."
+        },
+        {
+          "behaviour_id": "EB-04",
+          "status": "covered",
+          "evidence": "Test verifies the submitted details on the owner profile."
+        },
+        {
+          "behaviour_id": "EB-05",
+          "status": "covered",
+          "evidence": "Test searches for the newly created owner."
+        },
+        {
+          "behaviour_id": "EB-06",
+          "status": "covered",
+          "evidence": "Test verifies the owner's contact information in search results."
+        },
+        {
+          "behaviour_id": "EB-07",
+          "status": "not_covered",
+          "evidence": "No assertion verifies that the newly created owner initially has no pets."
+        }
+      ]
+    }
+  }
+]
